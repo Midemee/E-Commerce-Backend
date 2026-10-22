@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 DEFAULT_ORIGINS = [
-    "https://ecommerce-frontend-lyart-nu-88.vercel.app/",
+    "https://ecommerce-frontend-lyart-nu-88.vercel.app",
     "http://127.0.0.1:5500",
 ]
 def get_allowed_origins() -> list[str]:
