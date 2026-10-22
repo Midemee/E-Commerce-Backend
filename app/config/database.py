@@ -2,8 +2,7 @@ import os
 from app.models.product import Product
 from app.models.cart import Cart, CartItem
 from app.models.order import Order, OrderItem, OrderStatus
-from app.models.store_keeper import StoreKeeper
-from app.models.customer import Customer
+from app.models.user import User
 
 from sqlmodel import SQLModel, create_engine
 from urllib.parse import quote_plus

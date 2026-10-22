@@ -1,1 +1,1 @@
-from .auth_exception import AuthenticationException
+from .auth_exception import AuthenticationException, UserNotFoundException

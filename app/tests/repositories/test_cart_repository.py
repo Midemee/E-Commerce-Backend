@@ -6,7 +6,7 @@ from sqlmodel import SQLModel, Session
 
 from app.models.product import Product
 from app.models.cart import Cart, CartItem
-from app.models.customer import Customer
+from app.models.user import User
 from app.repositories.cart_repository import CartRepository
 
 
@@ -56,7 +56,8 @@ class TestCartRepository:
         cart_item = CartItem(
             cart_id=test_cart.id,
             product_id=test_product.id,
-            quantity=1
+            quantity=1,
+            product_price=test_product.price
         )
 
         db_session.add(cart_item)
@@ -77,7 +78,8 @@ class TestCartRepository:
         cart_item = CartItem(
             cart_id=test_cart.id,
             product_id=test_product.id,
-            quantity=2
+            quantity=2,
+            product_price=test_product.price
         )
 
         db_session.add(cart_item)
@@ -87,15 +89,20 @@ class TestCartRepository:
 
         assert test_cart.total_price == 11.98
 
-    def test_save_cart_to_repository_return_with_id(self, db_session):
+    def test_get_or_create_for_customer_creates_a_cart_with_id(self, db_session):
         repository = CartRepository(db_session)
+        customer_id = uuid4()
 
-        cart = Cart(
-            customer_id=uuid4()
-        )
+        cart = repository.get_or_create_for_customer(customer_id)
 
-        saved_cart = repository.save(cart)
+        assert cart.id is not None
+        assert cart.customer_id == customer_id
 
-        assert saved_cart.id == cart.id
+    def test_get_or_create_for_customer_returns_existing_cart(self, db_session):
+        repository = CartRepository(db_session)
+        customer_id = uuid4()
 
+        first = repository.get_or_create_for_customer(customer_id)
+        second = repository.get_or_create_for_customer(customer_id)
 
+        assert first.id == second.id

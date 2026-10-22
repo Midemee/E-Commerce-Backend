@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
+from app.config.cors import get_allowed_origins
 from app.config.database import create_db_and_tables
 from app.routers.auth_router import router as auth_router
 from app.routers.inventory_router import router as inventory_router
@@ -12,8 +13,7 @@ from app.routers.sales_router import router as sales_router
 from app.models.product import Product
 from app.models.cart import Cart, CartItem
 from app.models.order import Order, OrderItem, OrderStatus
-from app.models.store_keeper import StoreKeeper
-from app.models.customer import Customer
+from app.models.user import User
 from app.routers.cart_router import router as cart_router
 
 
@@ -26,15 +26,9 @@ async def lifespan(_app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 
-origins = [
-    "http://localhost:5500",
-    "http://127.0.0.1:5500",
-    "http://127.0.0.1:8000",
-]
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=get_allowed_origins(),
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
