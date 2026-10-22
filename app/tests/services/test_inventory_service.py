@@ -1,23 +1,17 @@
 from uuid import uuid4
+
 import pytest
-from pydantic import UUID4, ValidationError
+from pydantic import ValidationError
 from sqlmodel import SQLModel, Session, create_engine, StaticPool
-
+from app.models.cart import Cart, CartItem
 from app.models.product import Product, AddProduct, UpdateProduct
-from app.models.store_keeper import StoreKeeper, RegisterStoreKeeper
-from app.models.cart import CartItem, Cart
-from app.models.customer import Customer
-
+from app.models.user import User
 from app.repositories.product_repository import ProductRepository
-from app.repositories.storekeeper_repository import StoreKeeperRepository
 from app.services.inventory_service import InventoryService
-from app.exception import AuthenticationException
 from app.exception.product_not_found_exception import ProductNotFoundException
 from app.exception.product_stock_exception import ProductStockException
-from app.repositories import storekeeper_repository
 
-
-class TestInventoryServiceIntegration:
+class TestInventoryService:
     @pytest.fixture(name="session")
     def session_fixture(self):
         engine = create_engine(
@@ -35,456 +29,226 @@ class TestInventoryServiceIntegration:
         return ProductRepository(session=session)
 
     @pytest.fixture
-    def storekeeper_repo(self, session):
-        return StoreKeeperRepository(session=session)
+    def service(self, product_repo):
+        return InventoryService(repository=product_repo)
 
-
-
-    @pytest.fixture
-    def service(self, session, product_repo, storekeeper_repo):
-        return InventoryService(
-            repository=product_repo,
-            user_repository=storekeeper_repo
+    @staticmethod
+    def make_product(product_repo, quantity=10, price=19.99, name="testing"):
+        return product_repo.save(
+            Product(
+                name=name,
+                description="test_description",
+                price=price,
+                quantity=quantity,
+            )
         )
 
-    def test_add_product_user_not_found(self, service):
-        non_existent_user_email = "testemail@gmail.com"
+    @staticmethod
+    def make_cart_item(product_id, quantity, price=19.99):
+        return CartItem(
+            cart_id=uuid4(),
+            product_id=product_id,
+            quantity=quantity,
+            product_price=price,
+        )
+
+    def test_add_product(self, session, service):
         payload = AddProduct(
             name="Test Item",
             description="test_description",
             price=19.99,
             quantity=10,
-            store_keeper_email=non_existent_user_email
         )
 
-        with pytest.raises(AuthenticationException):
-            service.add_product(payload)
+        product = service.add_product(payload)
 
-    def test_dispense_product_user_not_found(self,session,  service):
-        id = uuid4()
-
-        product = Product(
-            id=id,
-            name="Test Product",
-            description="Test Description",
-            price=5.99,
-            quantity=10,
-        )
-
-        session.add(product)
-        session.commit()
-
-        non_existent_user_email = "testemail@gmail.com"
-        with pytest.raises(AuthenticationException):
-            service.dispense(
-                id=id,
-                store_keeper_email=non_existent_user_email,
-                quantity_to_remove=3
-            )
-
-    def test_delete_product_user_not_found(self, service):
-        id = uuid4()
-        non_existent_user_email = "testemail@gmail.com"
-
-        with pytest.raises(AuthenticationException):
-            service.delete(id, store_keeper_email=non_existent_user_email)
-
-    def test_get_product_user_not_found(self, service):
-        id = uuid4()
-        non_existent_user_email = "testemail@gmail.com"
-
-        with pytest.raises(AuthenticationException):
-            service.get_product(id, store_keeper_email=non_existent_user_email)
-
-    def test_get_all_product_user_not_found(self, service):
-        non_existent_user_email = "testemail@gmail.com"
-
-        with pytest.raises(AuthenticationException):
-            service.get_all_products(store_keeper_email=non_existent_user_email)
-
-    def test_add_product_store_keeper_not_logged_in(self, session, service):
-        store_keeper_email = "testemail@gmail.com"
-        id = uuid4()
-        user = StoreKeeper(
-            id=id,
-            name="test_storekeeper",
-            email="test@gmail.com",
-            password="test_password",
-            is_logged_in=False
-        )
-        session.add(user)
-        session.commit()
-
-        payload = AddProduct(
-            name="Test Item",
-            description="test_description",
-            price=19.99,
-            quantity=10,
-            store_keeper_email=store_keeper_email
-        )
-
-        with pytest.raises(AuthenticationException):
-            service.add_product(payload)
-
-    def test_cannot_dispense_when_store_keeper_not_logged_in(
-            self,
-            session,
-            service,
-    ):
-        store_keeper_email = "test@gmail.com"
-        id = uuid4()
-
-        user = StoreKeeper(
-            id=id,
-            name="test_storekeeper",
-            email="test@gmail.com",
-            password="test_password",
-            is_logged_in=False,
-        )
-
-        product = Product(
-            id=id,
-            name="Test Product",
-            description="Test Description",
-            price=5.99,
-            quantity=10,
-        )
-
-        session.add(user)
-        session.add(product)
-        session.commit()
-
-        with pytest.raises(AuthenticationException):
-            service.dispense(
-                id=id,
-                store_keeper_email=store_keeper_email,
-                quantity_to_remove=3,
-            )
-
-    def test_cannot_delete_when_store_keeper_not_logged_in(
-            self,
-            session,
-            service,
-    ):
-        store_keeper_email = "testemail@gmail.com"
-        id = uuid4()
-
-        user = StoreKeeper(
-            id=id,
-            name="test_storekeeper",
-            email="test@gmail.com",
-            password="test_password",
-            is_logged_in=False,
-        )
-
-        product = Product(
-            id=id,
-            name="Test Product",
-            description="Test Description",
-            price=5.99,
-            quantity=10,
-        )
-
-        session.add(user)
-        session.add(product)
-        session.commit()
-
-        with pytest.raises(AuthenticationException):
-            service.delete(
-                id=id,
-                store_keeper_email=store_keeper_email,
-            )
-
-
-    def test_cannot_get_product_when_store_keeper_not_logged_in(
-            self,
-            session,
-            service,
-    ):
-        store_keeper_email = "testemail@gmail.com"
-        id = uuid4()
-
-        user = StoreKeeper(
-            id=id,
-            name="test_storekeeper",
-            email="test@gmail.com",
-            password="test_password",
-            is_logged_in=False,
-        )
-
-        product = Product(
-            id=id,
-            name="Test Product",
-            description="Test Description",
-            price=5.99,
-            quantity=10,
-        )
-
-        session.add(user)
-        session.add(product)
-        session.commit()
-
-        with pytest.raises(AuthenticationException):
-            service.get_product(
-                id=id,
-                store_keeper_email=store_keeper_email,
-            )
-
-    def test_cannot_get_all_products_when_store_keeper_not_logged_in(
-            self,
-            session,
-            service,
-    ):
-        store_keeper_email = "testemail@gmail.com"
-        id = uuid4()
-
-        user = StoreKeeper(
-            id=id,
-            name="test_storekeeper",
-            email="test@gmail.com",
-            password="test_password",
-            is_logged_in=False,
-        )
-
-        product = Product(
-            id=id,
-            name="Test Product",
-            description="Test Description",
-            price=5.99,
-            quantity=10,
-        )
-
-        session.add(user)
-        session.add(product)
-        session.commit()
-
-        with pytest.raises(AuthenticationException):
-            service.get_all_products(
-                store_keeper_email=store_keeper_email,
-            )
-
-    def test_increase_stock(self, session, service, product_repo, storekeeper_repo):
-        store_keeper_email = "testemail@gmail.com"
-
-
-        user = StoreKeeper(
-            id=uuid4(),
-            name="test_storekeeper",
-            email="test@gmail.com",
-            password="test_password",
-            is_logged_in=True
-        )
-        sk = storekeeper_repo.save(user)
-
-        initial_product = Product(
-            name="testing",
-            description="test_description",
-            price=19.99,
-            quantity=10,
-        )
-        saved_product = product_repo.save(initial_product)
-
-        updated_payload = UpdateProduct(
-            id=saved_product.id,
-            name="test_name",
-            description="test_description",
-            price=19.99,
-            quantity=10,
-            store_keeper_email=sk.email
-        )
-
-        updated_product = service.restock(updated_payload)
-
-        assert updated_product.quantity == 20
-
-        session.expire_all()
-        session.refresh(saved_product)
-        assert saved_product.quantity == 20
+        assert product.id is not None
+        assert product.name == "Test Item"
+        assert product.quantity == 10
+        assert session.get(Product, product.id) is not None
 
     @pytest.mark.parametrize("quantity", [0, -10])
-    def test_invalid_quantity_for_add_product(self, quantity, session, service):
-        store_keeper_email = "testemail@gmail.com"
-        id = uuid4()
-
-        user = StoreKeeper(
-            id=id,
-            name="test_storekeeper",
-            email="test_email@gmail.com",
-            password="test_password",
-            is_logged_in=True
-        )
-        session.add(user)
-        session.commit()
-
-
-
+    def test_invalid_quantity_for_add_product(self, quantity):
         with pytest.raises(ValidationError):
             AddProduct(
                 name="Test Item",
                 description="test_description",
                 price=19.99,
                 quantity=quantity,
-                store_keeper_email=store_keeper_email
             )
 
+    @pytest.mark.parametrize("price", [0, -5.0])
+    def test_invalid_price_for_add_product(self, price):
+        with pytest.raises(ValidationError):
+            AddProduct(
+                name="Test Item",
+                description="test_description",
+                price=price,
+                quantity=5,
+            )
 
-    def test_decrease_product_quantity(self, session, service, product_repo, storekeeper_repo):
-        store_keeper_email = "testemail@gmail.com"
-        id = uuid4()
+    def test_increase_stock(self, session, service, product_repo):
+        saved_product = self.make_product(product_repo, quantity=10)
 
-        user = StoreKeeper(
-            id=id,
-            name="test_storekeeper",
-            email="test@gmail.com",
-            password="test_password",
-            is_logged_in=True
+        updated = service.restock(
+            UpdateProduct(
+                id=saved_product.id,
+                name="test_name",
+                description="test_description",
+                price=19.99,
+                quantity=10,
+            )
         )
-        sk = storekeeper_repo.save(user)
 
-        initial_product = Product(
-            name="testing",
-            description="test_description",
-            price=19.99,
-            quantity=10,
-        )
-        saved_product = product_repo.save(initial_product)
+        assert updated.quantity == 20
+        assert updated.name == "test_name"
 
-        saved_product = service.dispense(saved_product.id, store_keeper_email=sk.email, quantity_to_remove=10)
+        session.expire_all()
+        session.refresh(saved_product)
+        assert saved_product.quantity == 20
 
-        assert saved_product.quantity == 0
-
-
-
+    def test_restock_product_not_found(self, service):
+        with pytest.raises(ProductNotFoundException):
+            service.restock(
+                UpdateProduct(
+                    id=uuid4(),
+                    name="test_name",
+                    description="test_description",
+                    price=19.99,
+                    quantity=10,
+                )
+            )
 
     @pytest.mark.parametrize("quantity", [0, -10])
-    def test_invalid_quantity_for_dispense_more_than_available_product(self,session,  quantity, service, product_repo):
+    def test_invalid_quantity_for_restock(self, quantity):
+        with pytest.raises(ValidationError):
+            UpdateProduct(
+                id=uuid4(),
+                name="test_name",
+                description="test_description",
+                price=19.99,
+                quantity=quantity,
+            )
 
-        user = StoreKeeper(
-            id=uuid4(),
-            name="test_storekeeper",
-            email="test_email@gmail.com",
-            password="test_password",
-            is_logged_in=True
+    def test_dispense_reduces_stock_and_returns_total(self, session, service, product_repo):
+        product = self.make_product(product_repo, quantity=10, price=5.0)
+
+        total = service.dispense([self.make_cart_item(product.id, quantity=4, price=5.0)])
+
+        assert total == 20.0
+
+        session.expire_all()
+        assert session.get(Product, product.id).quantity == 6
+
+    def test_dispense_multiple_items(self, session, service, product_repo):
+        first = self.make_product(product_repo, quantity=10, price=5.0, name="first")
+        second = self.make_product(product_repo, quantity=5, price=2.0, name="second")
+
+        total = service.dispense(
+            [
+                self.make_cart_item(first.id, quantity=2),
+                self.make_cart_item(second.id, quantity=3),
+            ]
         )
 
-        session.add(user)
-        session.commit()
+        assert total == 2 * 5.0 + 3 * 2.0
 
-        payload = Product(
-            name="Test Item",
-            description="test_description",
-            price=19.99,
-            quantity=10,
-        )
+        session.expire_all()
+        assert session.get(Product, first.id).quantity == 8
+        assert session.get(Product, second.id).quantity == 2
 
-        saved = product_repo.save(payload)
+    def test_dispense_all_stock_leaves_zero(self, session, service, product_repo):
+        product = self.make_product(product_repo, quantity=10)
 
+        service.dispense([self.make_cart_item(product.id, quantity=10)])
 
+        session.expire_all()
+        assert session.get(Product, product.id).quantity == 0
+
+    def test_dispense_more_than_available_raises(self, service, product_repo):
+        product = self.make_product(product_repo, quantity=3)
 
         with pytest.raises(ProductStockException):
-            service.dispense(saved.id, store_keeper_email=user.email, quantity_to_remove=quantity)
+            service.dispense([self.make_cart_item(product.id, quantity=10)])
 
-    def test_empty_product_stock_dispense_product(self, session, service):
-        store_keeper_email = "testemail@gmail.com"
-
-
-        user = StoreKeeper(
-            id=uuid4(),
-            name="test_storekeeper",
-            email=store_keeper_email,
-            password="test_password",
-            is_logged_in=True
-        )
-
-        id = uuid4()
-        product = Product(
-            id=id,
-            name="test_name",
-            description="test_description",
-            price=5.99,
-            quantity=3
-        )
-        session.add(user)
-        session.add(product)
-        session.commit()
+    def test_dispense_short_on_stock_deducts_nothing(self, session, service, product_repo):
+        plenty = self.make_product(product_repo, quantity=10, name="plenty")
+        scarce = self.make_product(product_repo, quantity=1, name="scarce")
 
         with pytest.raises(ProductStockException):
-            service.dispense(id=id, store_keeper_email=store_keeper_email, quantity_to_remove=10)
+            service.dispense(
+                [
+                    self.make_cart_item(plenty.id, quantity=4),
+                    self.make_cart_item(scarce.id, quantity=2),
+                ]
+            )
 
-    def test_that_delete_product_deletes_product(self, session, service, product_repo):
+        session.expire_all()
+        assert session.get(Product, plenty.id).quantity == 10
+        assert session.get(Product, scarce.id).quantity == 1
 
-        user = StoreKeeper(
-            id = uuid4(),
-            name="test_name",
-            email="test@gmail.com",
-            password="12345678",
-            is_logged_in=True
-        )
-
-        sk_repo = StoreKeeperRepository(session)
-
-        saved_store_keeper = sk_repo.save(user)
-
-        product = Product(
-            id=uuid4(),
-            name="test_name",
-            description="test_description",
-            price=5.99,
-            quantity=3
-        )
-        saved = product_repo.save(product)
-        service.delete(id=saved.id, store_keeper_email=user.email)
-
-        product_repo.find_by_id(saved.id) is None
-
-    def test_that_get_product_with_invalid_id_raise_valueError(self, session, service):
-        store_keeper_email = uuid4()
-
-        user = StoreKeeper(
-            id=uuid4(),
-            name="test_storekeeper",
-            email="test_email@gmail.com",
-            password="test_password",
-            is_logged_in=True
-        )
-
-        session.add(user)
-        session.commit()
-
-        id = uuid4()
+    def test_dispense_missing_product_deducts_nothing(self, session, service, product_repo):
+        real = self.make_product(product_repo, quantity=10)
 
         with pytest.raises(ProductNotFoundException):
-            service.get_product(id, user.email)
+            service.dispense(
+                [
+                    self.make_cart_item(real.id, quantity=4),
+                    self.make_cart_item(uuid4(), quantity=1),
+                ]
+            )
 
-    def test_that_get_product_with_valid_id(self, session, service, product_repo):
-        store_keeper_email = uuid4()
-        id = uuid4()
+        session.expire_all()
+        assert session.get(Product, real.id).quantity == 10
 
+    def test_dispense_same_product_twice_cannot_exceed_stock(self, session, service, product_repo):
+        product = self.make_product(product_repo, quantity=5)
 
-        user = StoreKeeper(
-            id=id,
-            name="test_storekeeper",
-            email="test_email@gmail.com",
-            password="test_password",
-            is_logged_in=True
-        )
+        with pytest.raises(ProductStockException):
+            service.dispense(
+                [
+                    self.make_cart_item(product.id, quantity=3),
+                    self.make_cart_item(product.id, quantity=3),
+                ]
+            )
 
-        session.add(user)
-        session.commit()
+        session.expire_all()
+        assert session.get(Product, product.id).quantity == 5
 
-        id = uuid4()
-        product = Product(
-            id=id,
-            name="test_name",
-            description="test_description",
-            price=5.99,
-            quantity=3
-        )
-        session.add(product)
-        session.commit()
+    def test_dispense_product_not_found(self, service):
+        with pytest.raises(ProductNotFoundException):
+            service.dispense([self.make_cart_item(uuid4(), quantity=1)])
 
-        product_repo.save(product)
+    def test_that_delete_product_deletes_product(self, service, product_repo):
+        saved = self.make_product(product_repo)
 
-        found_product = service.get_product(id=id, store_keeper_email=user.email)
-        assert found_product.name == "test_name"
-        assert session.get(Product, id).id == found_product.id
+        service.delete(id=saved.id)
+
+        assert product_repo.find_by_id(saved.id) is None
+
+    def test_delete_product_not_found(self, service):
+        with pytest.raises(ProductNotFoundException):
+            service.delete(id=uuid4())
+
+    def test_get_product_with_invalid_id_raises_not_found(self, service):
+        with pytest.raises(ProductNotFoundException):
+            service.get_product(uuid4())
+
+    def test_get_product_with_valid_id(self, session, service, product_repo):
+        saved = self.make_product(product_repo, name="test_name")
+
+        found = service.get_product(id=saved.id)
+
+        assert found.name == "test_name"
+        assert session.get(Product, saved.id).id == found.id
+
+    def test_get_all_products_empty(self, service):
+        assert service.get_all_products() == []
+
+    def test_get_all_products(self, service, product_repo):
+        self.make_product(product_repo, name="first")
+        self.make_product(product_repo, name="second")
+
+        products = service.get_all_products()
+
+        assert {p.name for p in products} == {"first", "second"}

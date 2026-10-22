@@ -1,7 +1,7 @@
 from typing import List
 from uuid import UUID
 
-from app.models.order import Order, OrderItem, OrderResponse, OrderStatus, CreateOrder
+from app.models.order import Order, OrderItem, OrderResponse, OrderStatus
 from app.repositories.order_repository import OrderRepository
 from app.repositories.cart_repository import CartRepository
 from app.repositories.product_repository import ProductRepository
@@ -17,8 +17,8 @@ class OrderService:
         self.product_repository = product_repository
         self.inventory_service = inventory_service
 
-    def create_order(self, payload : CreateOrder) -> OrderResponse:
-        cart = self.cart_repository.get_or_create_for_customer(payload.customer_id)
+    def create_order(self, customer_id: UUID) -> OrderResponse:
+        cart = self.cart_repository.get_or_create_for_customer(customer_id)
         cart_items = self.cart_repository.get_items(cart.id)
 
         if not cart_items:
@@ -26,7 +26,7 @@ class OrderService:
 
         total = self.inventory_service.dispense(cart_items)
         order = Order(
-            customer_id=payload.customer_id,
+            customer_id=customer_id,
             total_amount=total,
             status=OrderStatus.PENDING)
 
@@ -51,7 +51,7 @@ class OrderService:
         if order is None:
             raise ValueError("Order not found")
         if order.customer_id != customer_id:
-            raise ValueError("You do not own this order")
+            raise ValueError("Order not found")
         return OrderResponse.model_validate(order)
 
     def list_orders(self, customer_id: UUID) -> list[Order]:
@@ -62,9 +62,11 @@ class OrderService:
         if order is None:
             raise ValueError("Order not found")
         if order.customer_id != customer_id:
-            raise ValueError("You do not own this order")
+            raise ValueError("Order not found")
+        if order.status == OrderStatus.CANCELLED:
+            raise ValueError("Order is already cancelled")
         if order.status in (OrderStatus.SHIPPED, OrderStatus.DELIVERED):
-            raise ValueError(f"Cannot cancel an order that is {order.status}")
+            raise ValueError(f"Cannot cancel an order that is {order.status.value}")
 
         order_items = self.repository.get_items(order_id)
         for item in order_items:
@@ -81,4 +83,3 @@ class OrderService:
             raise ValueError("Order not found")
         updated = self.repository.update_status(order_id, new_status)
         return OrderResponse.model_validate(updated)
-

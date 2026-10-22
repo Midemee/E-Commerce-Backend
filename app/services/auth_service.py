@@ -1,23 +1,45 @@
-from app.exception import AuthenticationException
+from app.exception import AuthenticationException, UserNotFoundException
 from app.repositories.user_repository import UserRepository
-from app.models.user import User, RegisterUser, LoginUser, LogoutUser, UserResponse
+
+from app.models.user import (
+    User,
+    RegisterUser,
+    LoginUser,
+    UserResponse,
+    LoginResponse
+)
+
 from app.enums.user_role import UserRole
+
+from app.security.password import (
+    hash_password,
+    verify_password
+)
+
+from app.security.token import create_access_token
 
 
 class AuthService:
+
     def __init__(self, user_repository: UserRepository):
         self.user_repository = user_repository
 
-    def create_customer(self, payload: RegisterUser) -> UserResponse:
-        if self.user_repository.exists_by_email(payload.email):
+    def register(
+        self,
+        payload: RegisterUser
+    ) -> UserResponse:
+
+        if self.user_repository.exists_by_email(
+            payload.email
+        ):
             raise AuthenticationException(
-                "Customer with this email already exists"
+                "An account with this email already exists"
             )
 
-        data = payload.model_dump()
-
         user = User(
-            **data,
+            name=payload.name,
+            email=payload.email,
+            password=hash_password(payload.password),
             role=UserRole.CUSTOMER
         )
 
@@ -25,85 +47,47 @@ class AuthService:
 
         return UserResponse.model_validate(user)
 
-    def login_customer(self, payload: LoginUser) -> UserResponse:
-        found_user = self.user_repository.find_by_email(payload.email)
+    def login(
+        self,
+        payload: LoginUser
+    ) -> LoginResponse:
 
-        if found_user is None:
-            raise AuthenticationException("Invalid email or password")
-
-        if found_user.role != UserRole.CUSTOMER:
-            raise AuthenticationException("Invalid email or password")
-
-        if payload.password != found_user.password:
-            raise AuthenticationException("Invalid email or password")
-
-        found_user.is_logged_in = True
-
-        found_user = self.user_repository.save(found_user)
-
-        return UserResponse.model_validate(found_user)
-
-    def logout_customer(self, payload: LogoutUser) -> UserResponse:
-        found_user = self.user_repository.find_by_email(payload.email)
-
-        if found_user is None:
-            raise AuthenticationException("Customer not found")
-
-        if found_user.role != UserRole.CUSTOMER:
-            raise AuthenticationException("Customer not found")
-
-        found_user.is_logged_in = False
-
-        found_user = self.user_repository.save(found_user)
-
-        return UserResponse.model_validate(found_user)
-
-    def create_storekeeper(self, payload: RegisterUser) -> UserResponse:
-        if self.user_repository.exists_by_email(payload.email):
-            raise AuthenticationException(
-                "StoreKeeper with this email already exists"
-            )
-
-        data = payload.model_dump()
-
-        user = User(
-            **data,
-            role=UserRole.STOREKEEPER
+        found_user = self.user_repository.find_by_email(
+            payload.email
         )
 
-        user = self.user_repository.save(user)
+        if found_user is None or not verify_password(
+            payload.password,
+            found_user.password
+        ):
+            raise AuthenticationException(
+                "Invalid email or password"
+            )
+
+        access_token = create_access_token(
+            user_id=str(found_user.id)
+        )
+
+        return LoginResponse(
+            access_token=access_token,
+            token_type="bearer",
+            user=UserResponse.model_validate(found_user)
+        )
+
+    def promote_to_storekeeper(
+        self,
+        email: str
+    ) -> UserResponse:
+
+        user = self.user_repository.find_by_email(email)
+
+        if user is None:
+            raise UserNotFoundException(
+                "No account exists with this email"
+            )
+
+        if user.role != UserRole.STOREKEEPER:
+            user.role = UserRole.STOREKEEPER
+            user = self.user_repository.save(user)
 
         return UserResponse.model_validate(user)
-
-    def login_storekeeper(self, payload: LoginUser) -> UserResponse:
-        found_user = self.user_repository.find_by_email(payload.email)
-
-        if found_user is None:
-            raise AuthenticationException("Invalid email or password")
-
-        if found_user.role != UserRole.STOREKEEPER:
-            raise AuthenticationException("Invalid email or password")
-
-        if payload.password != found_user.password:
-            raise AuthenticationException("Invalid email or password")
-
-        found_user.is_logged_in = True
-
-        found_user = self.user_repository.save(found_user)
-
-        return UserResponse.model_validate(found_user)
-
-    def logout_storekeeper(self, payload: LogoutUser) -> UserResponse:
-        found_user = self.user_repository.find_by_email(payload.email)
-
-        if found_user is None:
-            raise AuthenticationException("StoreKeeper not found")
-
-        if found_user.role != UserRole.STOREKEEPER:
-            raise AuthenticationException("StoreKeeper not found")
-
-        found_user.is_logged_in = False
-
-        found_user = self.user_repository.save(found_user)
-
-        return UserResponse.model_validate(found_user)

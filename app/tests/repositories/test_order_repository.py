@@ -6,10 +6,10 @@ from sqlmodel import SQLModel, Session, select
 
 from app.repositories.order_repository import OrderRepository
 from app.models.order import Order, OrderItem, OrderStatus
-from app.models.customer import Customer
+from app.enums.user_role import UserRole
+from app.models.user import User
 from app.models.product import Product
 from app.models.cart import Cart, CartItem
-from app.models.store_keeper import StoreKeeper
 
 
 class TestOrderRepositoryAdd:
@@ -28,8 +28,8 @@ class TestOrderRepositoryAdd:
 
         SQLModel.metadata.drop_all(test_engine)
 
-    def create_test_customer(self, db_session: Session) -> Customer:
-        customer = Customer(name="Ada", email="ada@example.com", password="fake-hash")
+    def create_test_customer(self, db_session: Session) -> User:
+        customer = User(name="Ada", email="ada@example.com", password="fake-hash", role=UserRole.CUSTOMER)
         db_session.add(customer)
         db_session.commit()
         db_session.refresh(customer)

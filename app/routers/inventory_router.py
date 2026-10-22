@@ -1,27 +1,33 @@
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException
-from pydantic import BaseModel, Field, EmailStr
 from sqlmodel import Session
-from sqlmodel.orm import session
 from starlette import status
 
 from app.config.dependencies import get_session
+from app.exception.product_not_found_exception import ProductNotFoundException
+from app.exception.product_stock_exception import ProductStockException
 from app.models.product import Product, AddProduct, UpdateProduct
 from app.repositories.product_repository import ProductRepository
+from app.security.dependencies import get_current_user, require_storekeeper
 from app.services.inventory_service import InventoryService
-from app.repositories.storekeeper_repository import StoreKeeperRepository
 
 router = APIRouter(prefix="/inventory", tags=["inventory_service"])
 
 
-
-def get_inventory_service(session : Session = Depends(get_session)) -> InventoryService:
+def get_inventory_service(session: Session = Depends(get_session)) -> InventoryService:
     product_repository = ProductRepository(session)
-    store_keeper_repository = StoreKeeperRepository(session)
-    return InventoryService(repository=product_repository, user_repository=store_keeper_repository)
+    return InventoryService(repository=product_repository)
 
-@router.post("/create_product", response_model=Product, status_code=status.HTTP_201_CREATED)
+storekeeper_only = [Depends(require_storekeeper)]
+any_logged_in_user = [Depends(get_current_user)]
+
+@router.post(
+    "/create_product",
+    response_model=Product,
+    status_code=status.HTTP_201_CREATED,
+    dependencies=storekeeper_only,
+)
 def create_new_product(
     payload: AddProduct,
     inventory_service: InventoryService = Depends(get_inventory_service),
@@ -35,46 +41,60 @@ def create_new_product(
         )
 
 
-@router.post("/update_product", response_model=Product, status_code=status.HTTP_202_ACCEPTED)
+@router.post(
+    "/update_product",
+    response_model=Product,
+    status_code=status.HTTP_202_ACCEPTED,
+    dependencies=storekeeper_only,
+)
 def update_product(
-        payload : UpdateProduct,
-        inventory_service : InventoryService = Depends(get_inventory_service),
+    payload: UpdateProduct,
+    inventory_service: InventoryService = Depends(get_inventory_service),
 ):
     try:
         return inventory_service.restock(payload)
-
+    except ProductNotFoundException as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+    except ProductStockException as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Failed to restock/update product: {str(e)}")
+            detail=f"Failed to restock/update product: {str(e)}"
+        )
 
 
-@router.get("/get_all_products", response_model=list[Product], status_code=status.HTTP_202_ACCEPTED)
-
+@router.get(
+    "/get_all_products",
+    response_model=list[Product],
+    status_code=status.HTTP_200_OK,
+    dependencies=any_logged_in_user,
+)
 def get_all_products(
-        store_keeper_email: EmailStr,
-        inventory_service: InventoryService = Depends(get_inventory_service)
+    inventory_service: InventoryService = Depends(get_inventory_service),
 ):
     try:
-        return inventory_service.get_all_products(store_keeper_email)
+        return inventory_service.get_all_products()
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Failed to get all products: {str(e)}"
         )
 
-
-
-
-@router.get("/get_product", response_model=Product, status_code=status.HTTP_202_ACCEPTED)
-
+@router.get(
+    "/get_product",
+    response_model=Product,
+    status_code=status.HTTP_200_OK,
+    dependencies=any_logged_in_user,
+)
 def get_product(
-        id : UUID,
-        store_keeper_email: EmailStr,
-        inventory_service: InventoryService = Depends(get_inventory_service)
+    id: UUID,
+    inventory_service: InventoryService = Depends(get_inventory_service),
 ):
     try:
-        return inventory_service.get_product(id, store_keeper_email)
+        return inventory_service.get_product(id)
+    except ProductNotFoundException as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -82,17 +102,21 @@ def get_product(
         )
 
 
-@router.delete("/delete_product",  status_code=status.HTTP_204_NO_CONTENT)
+@router.delete(
+    "/delete_product",
+    status_code=status.HTTP_204_NO_CONTENT,
+    dependencies=storekeeper_only,
+)
 def delete_product(
-        id : UUID,
-        store_keeper_email : EmailStr,
-        inventory_service : InventoryService = Depends(get_inventory_service),
+    id: UUID,
+    inventory_service: InventoryService = Depends(get_inventory_service),
 ):
     try:
-        return inventory_service.delete(id, store_keeper_email)
+        return inventory_service.delete(id)
+    except ProductNotFoundException as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Failed to delete product: {str(e)}"
         )
-

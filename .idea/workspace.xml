@@ -2,22 +2,46 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d46d71d5-1f17-4bfb-bcc4-99b358d81cc5" name="Changes" comment="fixing bugs">
-      <change afterPath="$PROJECT_DIR$/app/enums/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/enums/user_role.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/models/user.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/repositories/user_repository.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/tests/repositories/test_user_repository.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/config/cors.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/scripts/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/scripts/promote_storekeeper.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/security/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/security/dependencies.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/security/password.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/security/token.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/tests/routers/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/tests/routers/conftest.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/tests/routers/test_auth_router.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/tests/routers/test_cart_router.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/tests/routers/test_inventory_router.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/tests/routers/test_sales_router.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/tests/security/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/tests/security/test_token.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/tests/test_cors.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/customer.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/store_keeper.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/repositories/customer_repository.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/repositories/storekeeper_repository.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/config/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/config/database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/exception/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/exception/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/exception/auth_exception.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/exception/auth_exception.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/cart.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/cart.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/order.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/order.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/product.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/product.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/user.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/routers/auth_router.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routers/auth_router.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routers/cart_router.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routers/cart_router.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routers/inventory_router.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routers/inventory_router.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routers/sales_router.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routers/sales_router.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/services/auth_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/auth_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/tests/repositories/test_customer_repository.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/tests/repositories/test_storekeeper_repository.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/tests/routers/test_router.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/tests/routers/test_router.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/tests/services_tests/test_auth_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/tests/services_tests/test_auth_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/services/cart_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/cart_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/services/inventory_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/inventory_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/services/sales_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/sales_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/tests/repositories/test_cart_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/tests/repositories/test_cart_repository.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/tests/repositories/test_order_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/tests/repositories/test_order_repository.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/tests/repositories/test_product_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/tests/repositories/test_product_repository.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/tests/services/test_auth_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/tests/services/test_auth_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/tests/services/test_inventory_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/tests/services/test_inventory_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/tests/services/test_sales_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/tests/services/test_sales_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pyproject.toml" beforeDir="false" afterPath="$PROJECT_DIR$/pyproject.toml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/uv.lock" beforeDir="false" afterPath="$PROJECT_DIR$/uv.lock" afterDir="false" />
     </list>
@@ -74,6 +98,7 @@
   &quot;keyToString&quot;: {
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;Python tests.Python tests for app.tests.repositories.test_product_repository.TestProductRepository.test_save_products_and_find_by_id.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for repositories.cart_repository.TestCartRepository.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests for tests.models.test_cart_modesl.TestCartModel.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests for tests.models.test_product_model.TestProductModel.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests for tests.models.test_product_model.TestProductModel.test_product_with_invalid_description_.executor&quot;: &quot;Run&quot;,
@@ -81,6 +106,7 @@
     &quot;Python tests.Python tests for tests.models.test_product_model.TestUpdateProduct.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests for tests.repositories.test_cart_repository.TestCartRepository.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests for tests.repositories.test_cart_repository.TestCartRepository.test_cart_model_functions_poperly.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for tests.repositories.test_order_repository.TestOrderRepositoryAdd.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests for tests.repositories.test_product_repository.TestProductRepository.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests for tests.repositories.test_product_repository.TestProductRepository.test_save_products_and_find_by_id.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests for tests.repositories.test_product_repository.TestProductRepository.test_that_save_product_count_increases_by_one.executor&quot;: &quot;Run&quot;,
@@ -89,9 +115,20 @@
     &quot;Python tests.Python tests for tests.repositories.test_product_repository.test_save_products_and_find_by_id.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests for tests.repositories.test_storekeeper_repository.TestStoreKeeperRepository.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests for tests.repositories.test_user_repository.TestUserRepository.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for tests.routers.test_auth_router.TestAuthRouter.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for tests.routers.test_auth_router.TestSingleRegisterAndLogin.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for tests.routers.test_cart_router.TestCartRouterRBAC.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for tests.routers.test_inventory_router.TestInventoryRouterRBAC.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests for tests.routers.test_router.TestAuthRouter.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests for tests.routers.test_router.TestAuthRouter.test_register_customer.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests for tests.routers.test_router.TestAuthRouter.test_register_customer_fails_when_email_exists.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for tests.routers.test_sales_router.TestSalesRouterRBAC.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for tests.security.test_token.TestCreateAccessToken.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for tests.services.test_auth_service.TestAuthService.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for tests.services.test_auth_service.TestAuthService.test_create_customer_raises_exception_when_email_exists.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for tests.services.test_auth_service.TestAuthService.test_create_storekeeper.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for tests.services.test_auth_service.TestAuthService.test_login_customer.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for tests.services.test_auth_service.TestAuthService.test_login_customer_raises_exception_when_email_does_not_exist.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests for tests.services.test_inventory_service.TestInventoryService.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests for tests.services.test_inventory_service.TestInventoryService.test_add_product_store_keeper_not_logged_in.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests for tests.services.test_inventory_service.TestInventoryService.test_increase_stock.executor&quot;: &quot;Run&quot;,
@@ -116,6 +153,7 @@
     &quot;Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_that_get_product_with_id_returns_product.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_that_get_product_with_invalid_product_id_raise_valueError.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_that_get_product_with_valid_product_id.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for tests.services.test_sales_service.TestOrderService.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests for tests.services_tests.test_auth_service.TestAuthService.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests for tests.services_tests.test_auth_service.TestAuthService.test_create_customer.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests for tests.services_tests.test_auth_service.TestAuthService.test_create_customer_raises_exception_when_email_exists.executor&quot;: &quot;Run&quot;,
@@ -124,6 +162,9 @@
     &quot;Python tests.Python tests for tests.services_tests.test_auth_service.TestAuthService.test_login_customer.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests for tests.services_tests.test_auth_service.TestAuthService.test_login_customer_raises_exception_when_email_does_not_exist.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests for tests.services_tests.test_auth_service.TestAuthService.test_logout_customer.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for tests.test_auth_router.TestSingleRegisterAndLogin.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for tests.test_cors.TestAllowedOrigins.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for tests.test_token.TestCreateAccessToken.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests in models.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests in test_cart_modesl.py.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests in test_cart_repository.py.executor&quot;: &quot;Run&quot;,
@@ -133,6 +174,7 @@
     &quot;Python tests.Python tests in test_user_repository.py.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests in tests.executor&quot;: &quot;Run&quot;,
     &quot;Python.auth_service.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.conftest.executor&quot;: &quot;Run&quot;,
     &quot;Python.game.executor&quot;: &quot;Run&quot;,
     &quot;Python.main.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
@@ -160,14 +202,14 @@
       <recent name="$PROJECT_DIR$/FRONTEND/Auth" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/FRONTEND" />
+      <recent name="$PROJECT_DIR$/app/tests/routers" />
       <recent name="$PROJECT_DIR$/app/config" />
-      <recent name="$PROJECT_DIR$/FRONTEND/MainApp" />
-      <recent name="$PROJECT_DIR$/app" />
+      <recent name="$PROJECT_DIR$/app/security" />
+      <recent name="$PROJECT_DIR$/app/tests/services" />
+      <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests for tests.services.test_auth_service.TestAuthService.test_create_customer_raises_exception_when_email_exists">
+  <component name="RunManager" selected="Python tests.Python tests for tests.routers.test_auth_router.TestSingleRegisterAndLogin">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="E-Commerce" />
       <option name="ENV_FILES" value="" />
@@ -193,6 +235,48 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="E-Commerce" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="false" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="RUN_TOOL" value="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for tests.repositories.test_product_repository.TestProductRepository" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="E-Commerce" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/app" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="false" />
+      <option name="RUN_TOOL" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;tests.repositories.test_product_repository.TestProductRepository&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
     <configuration name="Python tests for tests.repositories.test_user_repository.TestUserRepository" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="E-Commerce" />
       <option name="ENV_FILES" value="" />
@@ -210,7 +294,7 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for tests.routers.test_router.TestAuthRouter" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for tests.routers.test_auth_router.TestSingleRegisterAndLogin" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="E-Commerce" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -223,11 +307,11 @@
       <option name="DEBUG_JUST_MY_CODE" value="false" />
       <option name="RUN_TOOL" value="" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;tests.routers.test_router.TestAuthRouter&quot;" />
+      <option name="_new_target" value="&quot;tests.routers.test_auth_router.TestSingleRegisterAndLogin&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for tests.routers.test_router.TestAuthRouter.test_register_customer" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for tests.routers.test_cart_router.TestCartRouterRBAC" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="E-Commerce" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -240,11 +324,11 @@
       <option name="DEBUG_JUST_MY_CODE" value="false" />
       <option name="RUN_TOOL" value="" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;tests.routers.test_router.TestAuthRouter.test_register_customer&quot;" />
+      <option name="_new_target" value="&quot;tests.routers.test_cart_router.TestCartRouterRBAC&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for tests.routers.test_router.TestAuthRouter.test_register_customer_fails_when_email_exists" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for tests.routers.test_inventory_router.TestInventoryRouterRBAC" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="E-Commerce" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -257,11 +341,11 @@
       <option name="DEBUG_JUST_MY_CODE" value="false" />
       <option name="RUN_TOOL" value="" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;tests.routers.test_router.TestAuthRouter.test_register_customer_fails_when_email_exists&quot;" />
+      <option name="_new_target" value="&quot;tests.routers.test_inventory_router.TestInventoryRouterRBAC&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for tests.services.test_auth_service.TestAuthService.test_create_customer_raises_exception_when_email_exists" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for tests.routers.test_sales_router.TestSalesRouterRBAC" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="E-Commerce" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -274,17 +358,68 @@
       <option name="DEBUG_JUST_MY_CODE" value="false" />
       <option name="RUN_TOOL" value="" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;tests.services.test_auth_service.TestAuthService.test_create_customer_raises_exception_when_email_exists&quot;" />
+      <option name="_new_target" value="&quot;tests.routers.test_sales_router.TestSalesRouterRBAC&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for tests.services.test_auth_service.TestAuthService" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="E-Commerce" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/app" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="false" />
+      <option name="RUN_TOOL" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;tests.services.test_auth_service.TestAuthService&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for tests.test_auth_router.TestSingleRegisterAndLogin" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="E-Commerce" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/app" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="false" />
+      <option name="RUN_TOOL" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;tests.test_auth_router.TestSingleRegisterAndLogin&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for tests.test_cors.TestAllowedOrigins" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="E-Commerce" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/app" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="false" />
+      <option name="RUN_TOOL" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;tests.test_cors.TestAllowedOrigins&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Python tests for tests.services.test_auth_service.TestAuthService.test_create_customer_raises_exception_when_email_exists" />
+        <item itemvalue="Python tests.Python tests for tests.routers.test_auth_router.TestSingleRegisterAndLogin" />
+        <item itemvalue="Python tests.Python tests for tests.routers.test_sales_router.TestSalesRouterRBAC" />
+        <item itemvalue="Python tests.Python tests for tests.routers.test_inventory_router.TestInventoryRouterRBAC" />
+        <item itemvalue="Python tests.Python tests for tests.routers.test_cart_router.TestCartRouterRBAC" />
         <item itemvalue="Python tests.Python tests for tests.repositories.test_user_repository.TestUserRepository" />
-        <item itemvalue="Python tests.Python tests for tests.routers.test_router.TestAuthRouter" />
-        <item itemvalue="Python tests.Python tests for tests.routers.test_router.TestAuthRouter.test_register_customer_fails_when_email_exists" />
-        <item itemvalue="Python tests.Python tests for tests.routers.test_router.TestAuthRouter.test_register_customer" />
       </list>
     </recent_temporary>
   </component>
@@ -506,8 +641,8 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/app/tests/services_tests/test_auth_service.py</url>
-          <line>101</line>
+          <url>file://$PROJECT_DIR$/app/tests/services/test_auth_service.py</url>
+          <line>4</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">

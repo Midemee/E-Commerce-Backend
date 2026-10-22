@@ -29,7 +29,7 @@ class CreateOrder(BaseModel):
 class Order(SQLModel, table=True):
     __tablename__ = "orders"
     id: UUID = SQLField(default_factory=uuid4, primary_key=True)
-    customer_id: UUID = SQLField(foreign_key="customers.id")
+    customer_id: UUID = SQLField(foreign_key="users.id")
     order_date: datetime = SQLField(default_factory=lambda: datetime.now(timezone.utc))
     total_amount: float
     status: OrderStatus = SQLField(default=OrderStatus.PENDING)

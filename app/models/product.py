@@ -10,7 +10,6 @@ class AddProduct(BaseModel):
     description : str = Field(min_length=3, max_length=100)
     price : float= Field(gt=0)
     quantity : int = Field(gt=0)
-    store_keeper_email : EmailStr
 
 class UpdateProduct(BaseModel):
     id : UUID
@@ -18,7 +17,6 @@ class UpdateProduct(BaseModel):
     description : str = Field(..., min_length=3, max_length=100)
     price : float = Field(gt=0)
     quantity : int = Field (gt=0)
-    store_keeper_email : EmailStr
 
 
 class Product(SQLModel, table=True):

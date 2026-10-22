@@ -11,8 +11,7 @@ from app.repositories.product_repository import ProductRepository
 from app.models.product import Product
 from app.models.cart import Cart, CartItem
 from app.models.order import Order, OrderItem, OrderStatus
-from app.models.store_keeper import StoreKeeper
-from app.models.customer import Customer
+from app.models.user import User
 
 class TestProductRepository:
     @pytest.fixture
@@ -66,5 +65,3 @@ class TestProductRepository:
 
         print(f"Gotcha! >> {saved_product.id}")
         assert repo.find_by_id(saved_product.id) == saved_product
-
-

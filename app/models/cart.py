@@ -26,7 +26,7 @@ class Cart(SQLModel, table=True):
     __tablename__ = "carts"
 
     id: UUID = SQLField(default_factory=uuid4, primary_key=True)
-    customer_id: UUID = SQLField(foreign_key="customers.id")
+    customer_id: UUID = SQLField(foreign_key="users.id")
     items: list["CartItem"] = Relationship(back_populates="cart")
     created_at: datetime = SQLField(default_factory=lambda: datetime.now(timezone.utc))
 
