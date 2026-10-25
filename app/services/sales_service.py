@@ -5,6 +5,7 @@ from app.models.order import Order, OrderItem, OrderResponse, OrderStatus
 from app.repositories.order_repository import OrderRepository
 from app.repositories.cart_repository import CartRepository
 from app.repositories.product_repository import ProductRepository
+from app.services.cart_service import refresh_cart_prices
 from app.services.inventory_service import InventoryService
 from app.models.product import Product
 from app.models.order import Order
@@ -23,6 +24,7 @@ class OrderService:
 
         if not cart_items:
             raise ValueError("Cannot check out an empty cart")
+        refresh_cart_prices(cart_items, self.cart_repository, self.product_repository)
 
         total = self.inventory_service.dispense(cart_items)
         order = Order(

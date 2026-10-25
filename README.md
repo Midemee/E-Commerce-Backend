@@ -28,7 +28,7 @@ Customers browse products, fill a cart and check out. Storekeepers manage the in
 |---|---|
 | Language | Python 3.12+ |
 | Framework | FastAPI, served by Uvicorn |
-| Database | MySQL, through SQLModel / SQLAlchemy and PyMySQL |
+| Database | MySQL locally, PostgreSQL on Render, through SQLModel / SQLAlchemy (PyMySQL and psycopg2) |
 | Auth | JWT (PyJWT), Argon2 password hashing (pwdlib) |
 | Tests | pytest, using an in-memory SQLite database |
 
@@ -93,11 +93,14 @@ They are already listed in `.gitignore`.
 
 | Variable | Required | Description |
 |---|---|---|
-| `DB_USER` | Yes | MySQL user |
+| `DATABASE_URL` | No | A full database address. If set, it wins over the `DB_*` values below (this is what Render provides). |
+| `DB_USER` | Yes* | MySQL user |
 | `DB_PASSWORD` | Yes | MySQL password |
 | `DB_HOST` | Yes | MySQL host, for example `localhost` |
 | `DB_PORT` | Yes | MySQL port, usually `3306` |
-| `DB_NAME` | Yes | Database name |
+| `DB_NAME` | Yes* | Database name |
+
+\* Only required when `DATABASE_URL` is not set. `DB_PORT` defaults to `3306`.
 
 Example:
 
@@ -234,7 +237,7 @@ Update body: `{ "id": "<uuid>", "name": "Mug", "description": "A ceramic mug", "
 
 ## Business rules
 
-- Adding to the cart checks stock, and the product's price is saved on the cart line.
+- Adding to the cart checks stock. Cart lines always follow the product's **current** price: if the storekeeper changes a price, the cart line is updated the next time the cart is viewed or checked out, and checkout charges the new price.
 - Checkout checks **every** item before changing anything. If one item is out of stock, nothing is deducted and the cart is kept so the customer can fix it.
 - A successful checkout deducts stock, creates the order and empties the cart.
 - Order statuses are `pending`, `paid`, `shipped`, `delivered` and `cancelled`.
@@ -286,16 +289,17 @@ Each request flows through the same layers: **router** (HTTP and permissions) â†
 
 ## Deploying
 
-Before the first deploy:
+A step-by-step guide for Render (no Docker needed) is in [DEPLOY_RENDER.md](DEPLOY_RENDER.md).
 
-1. **Set the environment variables** on the server: `SECRET_KEY`, `CORS_ORIGINS` (your real frontend address, with `https://`), and the five `DB_*` values. Use a new, long `SECRET_KEY` for production.
-2. **Create an empty MySQL database** and a user that can use it.
-3. **Start the app without `--reload`:**
-   ```bash
-   uvicorn main:app --host 0.0.0.0 --port 8000
-   ```
-4. **Serve it over HTTPS**, for example behind a reverse proxy or your host's built-in TLS, because logins and tokens travel in every request.
-5. **Create the first storekeeper** with the script in [Creating your first storekeeper](#creating-your-first-storekeeper).
+In short, on any host:
+
+1. Set `SECRET_KEY` (new, long, random), `CORS_ORIGINS` (your frontend's `https://` address, no trailing slash), and either `DATABASE_URL` or the five `DB_*` values.
+2. Install with `pip install -r requirements.txt`.
+3. Start without `--reload`: `uvicorn main:app --host 0.0.0.0 --port $PORT`.
+4. Serve it over HTTPS.
+5. Create the first storekeeper with the script in [Creating your first storekeeper](#creating-your-first-storekeeper).
+
+`GET /health` returns `{"status": "ok"}` for uptime and health checks.
 
 ### Database changes
 
@@ -304,4 +308,3 @@ Tables are created automatically if they are missing, but existing tables are **
 ### Known limitations
 
 - Checkout saves the order in several steps. If the database fails in the middle of saving, stock could be deducted without an order. The common cases (out of stock, missing product) are handled safely.
-- The order total uses each product's current price, while each order line records the price from when it was added to the cart.
