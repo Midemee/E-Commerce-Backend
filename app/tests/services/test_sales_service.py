@@ -87,6 +87,21 @@ class TestOrderService:
         assert session.get(Product, product.id).quantity == 7
         assert session.exec(select(CartItem)).all() == []
 
+    def test_checkout_uses_current_price_when_price_changed(
+        self, session, service, customer_id, make_product, fill_cart
+    ):
+        product = make_product(quantity=10, price=5.0)
+        fill_cart(customer_id, product, 3)
+
+        product.price = 8.0
+        session.add(product)
+        session.commit()
+
+        order = service.create_order(customer_id)
+
+        assert order.total_amount == 24.0
+        assert order.items[0].price_purchased == 8.0
+
     def test_checkout_with_empty_cart_raises(self, service, customer_id):
         with pytest.raises(ValueError, match="empty cart"):
             service.create_order(customer_id)
@@ -107,7 +122,6 @@ class TestOrderService:
         assert session.get(Product, scarce.id).quantity == 1
         assert session.exec(select(Order)).all() == []
         assert len(session.exec(select(CartItem)).all()) == 2
-
 
     def test_get_order_hides_other_customers_orders(
         self, service, customer_id, make_product, fill_cart
@@ -144,7 +158,7 @@ class TestOrderService:
         session.expire_all()
         assert session.get(Product, product.id).quantity == 10   # not 14
 
-    def test_cancel_someone_else_order_is_refused(
+    def test_cancel_someone_elses_order_is_refused(
         self, session, service, customer_id, make_product, fill_cart
     ):
         product = make_product(quantity=10)
@@ -156,3 +170,37 @@ class TestOrderService:
 
         session.expire_all()
         assert session.get(Product, product.id).quantity == 6
+
+
+class TestCartPriceRefresh:
+    @pytest.fixture
+    def session(self):
+        engine = create_engine("sqlite://", connect_args={"check_same_thread": False}, poolclass=StaticPool)
+        SQLModel.metadata.create_all(engine)
+        with Session(engine) as session:
+            yield session
+        SQLModel.metadata.drop_all(engine)
+
+    def test_get_cart_updates_stale_price_and_total(self, session):
+        from app.models.cart import CreateCart
+        from app.services.cart_service import CartService
+
+        product = Product(name="Mug", description="cup", price=5.0, quantity=10)
+        session.add(product)
+        session.commit()
+        session.refresh(product)
+
+        customer_id = uuid4()
+        service = CartService(CartRepository(session), ProductRepository(session))
+        service.add_item_to_cart(customer_id, CreateCart(product_id=product.id, quantity=2))
+
+        product.price = 9.0
+        session.add(product)
+        session.commit()
+
+        cart = service.get_cart(customer_id)
+
+        assert cart.items[0].product_price == 9.0
+        assert cart.total_price == 18.0
+        session.expire_all()
+        assert session.exec(select(CartItem)).first().product_price == 9.0

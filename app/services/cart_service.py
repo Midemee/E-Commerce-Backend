@@ -4,6 +4,13 @@ from app.models.cart import Cart, CartItem, CreateCart
 from app.repositories.cart_repository import CartRepository
 from app.repositories.product_repository import ProductRepository
 
+def refresh_cart_prices(items, cart_repository: CartRepository, product_repository: ProductRepository) -> None:
+    for item in items:
+        product = product_repository.find_by_id(item.product_id)
+        if product is not None and item.product_price != product.price:
+            item.product_price = product.price
+            cart_repository.add_item(item)
+
 
 class CartService:
     def __init__(self, repository: CartRepository, product_repository: ProductRepository):
@@ -24,6 +31,7 @@ class CartService:
 
         if existing_item is not None:
             existing_item.quantity = existing_item.quantity + payload.quantity
+            existing_item.product_price = product.price
             self.repository.add_item(existing_item)
         else:
             new_item = CartItem(
@@ -38,7 +46,9 @@ class CartService:
 
     def get_cart(self, customer_id: UUID) -> Cart:
         cart = self.repository.get_or_create_for_customer(customer_id)
-        cart.items = self.repository.get_items(cart.id)
+        items = self.repository.get_items(cart.id)
+        refresh_cart_prices(items, self.repository, self.product_repository)
+        cart.items = items
         return cart
 
     def remove_item(self, customer_id: UUID, cart_item_id: UUID) -> Cart:
