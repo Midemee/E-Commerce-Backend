@@ -17,6 +17,7 @@ class InventoryService:
             description=payload.description,
             price=payload.price,
             quantity=payload.quantity,
+            image_url=payload.image_url,
         )
 
         return self.repository.save(new_product)
@@ -26,13 +27,19 @@ class InventoryService:
             raise ProductStockException("Invalid Quantity!!!")
 
         saved_product = self.repository.find_by_id(payload.id)
+
         if saved_product is None:
-            raise ProductNotFoundException(f"Product {payload.id} does not exist!")
+            raise ProductNotFoundException(
+                f"Product {payload.id} does not exist!"
+            )
 
         saved_product.quantity += payload.quantity
         saved_product.name = payload.name
         saved_product.description = payload.description
         saved_product.price = payload.price
+
+        if payload.image_url is not None:
+            saved_product.image_url = payload.image_url
 
         return self.repository.save(saved_product)
 
