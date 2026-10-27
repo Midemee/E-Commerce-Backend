@@ -1,6 +1,6 @@
 from uuid import UUID
-
-from fastapi import APIRouter, Depends, HTTPException
+from app.services.cloudinary_service import CloudinaryService
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File
 from sqlmodel import Session
 from starlette import status
 
@@ -12,8 +12,8 @@ from app.repositories.product_repository import ProductRepository
 from app.security.dependencies import get_current_user, require_storekeeper
 from app.services.inventory_service import InventoryService
 
+cloudinary_service = CloudinaryService()
 router = APIRouter(prefix="/inventory", tags=["inventory_service"])
-
 
 def get_inventory_service(session: Session = Depends(get_session)) -> InventoryService:
     product_repository = ProductRepository(session)
@@ -21,6 +21,13 @@ def get_inventory_service(session: Session = Depends(get_session)) -> InventoryS
 
 storekeeper_only = [Depends(require_storekeeper)]
 any_logged_in_user = [Depends(get_current_user)]
+
+@router.post("/upload-image")
+async def upload_product_image(
+    file: UploadFile = File(...),
+    current_user=Depends(require_storekeeper),
+):
+    return await cloudinary_service.upload_product_image(file)
 
 @router.post(
     "/create_product",
@@ -62,7 +69,6 @@ def update_product(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Failed to restock/update product: {str(e)}"
         )
-
 
 @router.get(
     "/get_all_products",
