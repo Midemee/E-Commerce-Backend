@@ -1,0 +1,23 @@
+# Optional Render Blueprint. You can also create the service by hand
+# (see DEPLOY_RENDER.md). Secrets are left blank on purpose: Render asks for them.
+services:
+  - type: web
+    name: ministore-api
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.8
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false
+      - key: CLOUDINARY_URL
+        sync: false
+      - key: CORS_ORIGINS
+        sync: false
+      - key: DB_SSL_CA_PEM
+        sync: false
