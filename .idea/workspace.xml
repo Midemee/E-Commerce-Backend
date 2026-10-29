@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d46d71d5-1f17-4bfb-bcc4-99b358d81cc5" name="Changes" comment="fixing bugs">
-      <change afterPath="$PROJECT_DIR$/app/services/cloudinary_service.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/product.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/product.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routers/inventory_router.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routers/inventory_router.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/services/inventory_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/inventory_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/services/cloudinary_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/cloudinary_service.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,7 +21,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feature/modify" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -58,110 +55,110 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Python tests.Python tests for app.tests.repositories.test_product_repository.TestProductRepository.test_save_products_and_find_by_id.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for repositories.cart_repository.TestCartRepository.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.models.test_cart_modesl.TestCartModel.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.models.test_product_model.TestProductModel.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.models.test_product_model.TestProductModel.test_product_with_invalid_description_.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.models.test_product_model.TestProductModel.test_product_with_invalid_name_.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.models.test_product_model.TestUpdateProduct.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.repositories.test_cart_repository.TestCartRepository.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.repositories.test_cart_repository.TestCartRepository.test_cart_model_functions_poperly.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.repositories.test_order_repository.TestOrderRepositoryAdd.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.repositories.test_product_repository.TestProductRepository.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.repositories.test_product_repository.TestProductRepository.test_save_products_and_find_by_id.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.repositories.test_product_repository.TestProductRepository.test_that_save_product_count_increases_by_one.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.repositories.test_product_repository.TestProductRepository.test_that_save_product_saved_product_find_by_id_returns_product.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.repositories.test_product_repository.TestProductRepository.test_that_save_product_saved_product_id_is_created.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.repositories.test_product_repository.test_save_products_and_find_by_id.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.repositories.test_storekeeper_repository.TestStoreKeeperRepository.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.repositories.test_user_repository.TestUserRepository.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.routers.test_auth_router.TestAuthRouter.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.routers.test_auth_router.TestSingleRegisterAndLogin.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.routers.test_cart_router.TestCartRouterRBAC.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.routers.test_inventory_router.TestInventoryRouterRBAC.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.routers.test_router.TestAuthRouter.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.routers.test_router.TestAuthRouter.test_register_customer.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.routers.test_router.TestAuthRouter.test_register_customer_fails_when_email_exists.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.routers.test_sales_router.TestSalesRouterRBAC.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.security.test_token.TestCreateAccessToken.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.services.test_auth_service.TestAuthService.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.services.test_auth_service.TestAuthService.test_create_customer_raises_exception_when_email_exists.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.services.test_auth_service.TestAuthService.test_create_storekeeper.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.services.test_auth_service.TestAuthService.test_login_customer.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.services.test_auth_service.TestAuthService.test_login_customer_raises_exception_when_email_does_not_exist.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.services.test_inventory_service.TestInventoryService.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.services.test_inventory_service.TestInventoryService.test_add_product_store_keeper_not_logged_in.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.services.test_inventory_service.TestInventoryService.test_increase_stock.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.services.test_inventory_service.TestInventoryService.test_that_add_product_require_store_keeper_logged.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.services.test_inventory_service.TestInventoryService.test_that_delete_product_deletes_product.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_add_product_store_keeper_not_logged_in.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_add_product_user_not_found.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_cannot_delete_when_store_keeper_not_logged_in.executor&quot;: &quot;Debug&quot;,
-    &quot;Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_cannot_dispense_when_store_keeper_not_logged_in.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_cannot_get_product_when_store_keeper_not_logged_in.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_decrease_product_quantity.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_delete_product_user_not_found.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_dispense_product_user_not_found.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_empty_product_stock_dispense_product.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_get_all_product_user_not_found.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_get_product_user_not_found.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_increase_stock.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_invalid_quantity_for_add_product.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_invalid_quantity_for_dispense_more_than_available_product.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_that_delete_product_deletes_product.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_that_get_product_with_id_returns_product.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_that_get_product_with_invalid_product_id_raise_valueError.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_that_get_product_with_valid_product_id.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.services.test_sales_service.TestOrderService.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.services_tests.test_auth_service.TestAuthService.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.services_tests.test_auth_service.TestAuthService.test_create_customer.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.services_tests.test_auth_service.TestAuthService.test_create_customer_raises_exception_when_email_exists.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.services_tests.test_auth_service.TestAuthService.test_create_storekeeper.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.services_tests.test_auth_service.TestAuthService.test_create_storekeeper_raises_exception_when_email_exists.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.services_tests.test_auth_service.TestAuthService.test_login_customer.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.services_tests.test_auth_service.TestAuthService.test_login_customer_raises_exception_when_email_does_not_exist.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.services_tests.test_auth_service.TestAuthService.test_logout_customer.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.test_auth_router.TestSingleRegisterAndLogin.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.test_cors.TestAllowedOrigins.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.test_token.TestCreateAccessToken.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in models.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in test_cart_modesl.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in test_cart_repository.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in test_customer_repository.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in test_product_model.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in test_product_repository.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in test_user_repository.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in tests.executor&quot;: &quot;Run&quot;,
-    &quot;Python.auth_service.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.conftest.executor&quot;: &quot;Run&quot;,
-    &quot;Python.game.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test_auth_service.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test_inventory_service.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test_sales_service.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;full.screen.before.presentation.mode&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feature/inventory&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/aramide/Documents/E-Commerce/FRONTEND/MainApp&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python tests.Python tests for app.tests.repositories.test_product_repository.TestProductRepository.test_save_products_and_find_by_id.executor": "Run",
+    "Python tests.Python tests for repositories.cart_repository.TestCartRepository.executor": "Run",
+    "Python tests.Python tests for tests.models.test_cart_modesl.TestCartModel.executor": "Run",
+    "Python tests.Python tests for tests.models.test_product_model.TestProductModel.executor": "Run",
+    "Python tests.Python tests for tests.models.test_product_model.TestProductModel.test_product_with_invalid_description_.executor": "Run",
+    "Python tests.Python tests for tests.models.test_product_model.TestProductModel.test_product_with_invalid_name_.executor": "Run",
+    "Python tests.Python tests for tests.models.test_product_model.TestUpdateProduct.executor": "Run",
+    "Python tests.Python tests for tests.repositories.test_cart_repository.TestCartRepository.executor": "Run",
+    "Python tests.Python tests for tests.repositories.test_cart_repository.TestCartRepository.test_cart_model_functions_poperly.executor": "Run",
+    "Python tests.Python tests for tests.repositories.test_order_repository.TestOrderRepositoryAdd.executor": "Run",
+    "Python tests.Python tests for tests.repositories.test_product_repository.TestProductRepository.executor": "Run",
+    "Python tests.Python tests for tests.repositories.test_product_repository.TestProductRepository.test_save_products_and_find_by_id.executor": "Run",
+    "Python tests.Python tests for tests.repositories.test_product_repository.TestProductRepository.test_that_save_product_count_increases_by_one.executor": "Run",
+    "Python tests.Python tests for tests.repositories.test_product_repository.TestProductRepository.test_that_save_product_saved_product_find_by_id_returns_product.executor": "Run",
+    "Python tests.Python tests for tests.repositories.test_product_repository.TestProductRepository.test_that_save_product_saved_product_id_is_created.executor": "Run",
+    "Python tests.Python tests for tests.repositories.test_product_repository.test_save_products_and_find_by_id.executor": "Run",
+    "Python tests.Python tests for tests.repositories.test_storekeeper_repository.TestStoreKeeperRepository.executor": "Run",
+    "Python tests.Python tests for tests.repositories.test_user_repository.TestUserRepository.executor": "Run",
+    "Python tests.Python tests for tests.routers.test_auth_router.TestAuthRouter.executor": "Run",
+    "Python tests.Python tests for tests.routers.test_auth_router.TestSingleRegisterAndLogin.executor": "Run",
+    "Python tests.Python tests for tests.routers.test_cart_router.TestCartRouterRBAC.executor": "Run",
+    "Python tests.Python tests for tests.routers.test_inventory_router.TestInventoryRouterRBAC.executor": "Run",
+    "Python tests.Python tests for tests.routers.test_router.TestAuthRouter.executor": "Run",
+    "Python tests.Python tests for tests.routers.test_router.TestAuthRouter.test_register_customer.executor": "Run",
+    "Python tests.Python tests for tests.routers.test_router.TestAuthRouter.test_register_customer_fails_when_email_exists.executor": "Run",
+    "Python tests.Python tests for tests.routers.test_sales_router.TestSalesRouterRBAC.executor": "Run",
+    "Python tests.Python tests for tests.security.test_token.TestCreateAccessToken.executor": "Run",
+    "Python tests.Python tests for tests.services.test_auth_service.TestAuthService.executor": "Run",
+    "Python tests.Python tests for tests.services.test_auth_service.TestAuthService.test_create_customer_raises_exception_when_email_exists.executor": "Run",
+    "Python tests.Python tests for tests.services.test_auth_service.TestAuthService.test_create_storekeeper.executor": "Run",
+    "Python tests.Python tests for tests.services.test_auth_service.TestAuthService.test_login_customer.executor": "Run",
+    "Python tests.Python tests for tests.services.test_auth_service.TestAuthService.test_login_customer_raises_exception_when_email_does_not_exist.executor": "Run",
+    "Python tests.Python tests for tests.services.test_inventory_service.TestInventoryService.executor": "Run",
+    "Python tests.Python tests for tests.services.test_inventory_service.TestInventoryService.test_add_product_store_keeper_not_logged_in.executor": "Run",
+    "Python tests.Python tests for tests.services.test_inventory_service.TestInventoryService.test_increase_stock.executor": "Run",
+    "Python tests.Python tests for tests.services.test_inventory_service.TestInventoryService.test_that_add_product_require_store_keeper_logged.executor": "Run",
+    "Python tests.Python tests for tests.services.test_inventory_service.TestInventoryService.test_that_delete_product_deletes_product.executor": "Run",
+    "Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.executor": "Run",
+    "Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_add_product_store_keeper_not_logged_in.executor": "Run",
+    "Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_add_product_user_not_found.executor": "Run",
+    "Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_cannot_delete_when_store_keeper_not_logged_in.executor": "Debug",
+    "Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_cannot_dispense_when_store_keeper_not_logged_in.executor": "Run",
+    "Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_cannot_get_product_when_store_keeper_not_logged_in.executor": "Run",
+    "Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_decrease_product_quantity.executor": "Run",
+    "Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_delete_product_user_not_found.executor": "Run",
+    "Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_dispense_product_user_not_found.executor": "Run",
+    "Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_empty_product_stock_dispense_product.executor": "Run",
+    "Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_get_all_product_user_not_found.executor": "Run",
+    "Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_get_product_user_not_found.executor": "Run",
+    "Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_increase_stock.executor": "Run",
+    "Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_invalid_quantity_for_add_product.executor": "Run",
+    "Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_invalid_quantity_for_dispense_more_than_available_product.executor": "Run",
+    "Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_that_delete_product_deletes_product.executor": "Run",
+    "Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_that_get_product_with_id_returns_product.executor": "Run",
+    "Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_that_get_product_with_invalid_product_id_raise_valueError.executor": "Run",
+    "Python tests.Python tests for tests.services.test_inventory_service.TestInventoryServiceIntegration.test_that_get_product_with_valid_product_id.executor": "Run",
+    "Python tests.Python tests for tests.services.test_sales_service.TestOrderService.executor": "Run",
+    "Python tests.Python tests for tests.services_tests.test_auth_service.TestAuthService.executor": "Run",
+    "Python tests.Python tests for tests.services_tests.test_auth_service.TestAuthService.test_create_customer.executor": "Run",
+    "Python tests.Python tests for tests.services_tests.test_auth_service.TestAuthService.test_create_customer_raises_exception_when_email_exists.executor": "Run",
+    "Python tests.Python tests for tests.services_tests.test_auth_service.TestAuthService.test_create_storekeeper.executor": "Run",
+    "Python tests.Python tests for tests.services_tests.test_auth_service.TestAuthService.test_create_storekeeper_raises_exception_when_email_exists.executor": "Run",
+    "Python tests.Python tests for tests.services_tests.test_auth_service.TestAuthService.test_login_customer.executor": "Run",
+    "Python tests.Python tests for tests.services_tests.test_auth_service.TestAuthService.test_login_customer_raises_exception_when_email_does_not_exist.executor": "Run",
+    "Python tests.Python tests for tests.services_tests.test_auth_service.TestAuthService.test_logout_customer.executor": "Run",
+    "Python tests.Python tests for tests.test_auth_router.TestSingleRegisterAndLogin.executor": "Run",
+    "Python tests.Python tests for tests.test_cors.TestAllowedOrigins.executor": "Run",
+    "Python tests.Python tests for tests.test_token.TestCreateAccessToken.executor": "Run",
+    "Python tests.Python tests in models.executor": "Run",
+    "Python tests.Python tests in test_cart_modesl.py.executor": "Run",
+    "Python tests.Python tests in test_cart_repository.py.executor": "Run",
+    "Python tests.Python tests in test_customer_repository.py.executor": "Run",
+    "Python tests.Python tests in test_product_model.py.executor": "Run",
+    "Python tests.Python tests in test_product_repository.py.executor": "Run",
+    "Python tests.Python tests in test_user_repository.py.executor": "Run",
+    "Python tests.Python tests in tests.executor": "Run",
+    "Python.auth_service.executor": "Debug",
+    "Python.conftest.executor": "Run",
+    "Python.game.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.test_auth_service.executor": "Run",
+    "Python.test_inventory_service.executor": "Run",
+    "Python.test_sales_service.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "full.screen.before.presentation.mode": "false",
+    "git-widget-placeholder": "feature/inventory",
+    "last_opened_file_path": "/home/aramide/Documents/E-Commerce/FRONTEND/MainApp",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
-      &quot;TEXT&quot;
+  "keyToStringList": {
+    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "TEXT"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/FRONTEND/MainApp" />
@@ -424,10 +421,10 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Python tests for tests.services.test_inventory_service.TestInventoryService" />
         <item itemvalue="Python tests.Python tests for tests.test_cors.TestAllowedOrigins" />
         <item itemvalue="Python tests.Python tests for tests.test_auth_router.TestSingleRegisterAndLogin" />
         <item itemvalue="Python tests.Python tests for tests.services.test_sales_service.TestOrderService" />
+        <item itemvalue="Python tests.Python tests for tests.services.test_inventory_service.TestInventoryService" />
         <item itemvalue="Python tests.Python tests for tests.services.test_auth_service.TestAuthService" />
       </list>
     </recent_temporary>
