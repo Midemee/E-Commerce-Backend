@@ -28,7 +28,8 @@ Customers browse products, fill a cart and check out. Storekeepers manage the in
 |---|---|
 | Language | Python 3.12+ |
 | Framework | FastAPI, served by Uvicorn |
-| Database | MySQL locally, PostgreSQL on Render, through SQLModel / SQLAlchemy (PyMySQL and psycopg2) |
+| Database | MySQL (local, or Aiven in production) through SQLModel / SQLAlchemy and PyMySQL |
+| Images | Cloudinary (product photos) |
 | Auth | JWT (PyJWT), Argon2 password hashing (pwdlib) |
 | Tests | pytest, using an in-memory SQLite database |
 
@@ -53,12 +54,12 @@ Or with pip:
 ```bash
 python -m venv .venv
 source .venv/bin/activate        # Windows: .venv\Scripts\activate
-pip install .
+pip install -r requirements.txt
 ```
 
 ### 3. Configure
 
-Create the two `.env` files described in [Configuration](#configuration).
+Copy `.env.example` to `.env` and fill it in, as described in [Configuration](#configuration).
 
 ### 4. Run
 
@@ -79,39 +80,28 @@ The tables are created automatically on startup.
 
 ## Configuration
 
-Settings come from environment variables, read from `.env` files. **Never commit these files.**
-They are already listed in `.gitignore`.
-
-**`.env`** (project root)
+Settings come from environment variables, read from a `.env` file in the project root (or set directly on the host).
+**Never commit `.env`.** It is listed in `.gitignore`; `.env.example` shows every setting.
 
 | Variable | Required | Description |
 |---|---|---|
 | `SECRET_KEY` | Yes | Signs the login tokens. The app refuses to start without it. |
-| `CORS_ORIGINS` | No | Comma-separated list of frontend addresses allowed to call the API. Defaults to `http://localhost:5500,http://127.0.0.1:5500`. `*` is rejected on purpose. |
+| `CORS_ORIGINS` | No | Comma-separated frontend addresses allowed to call the API (no trailing slash). `*` is rejected on purpose. Defaults to the deployed Vercel frontend and `http://127.0.0.1:5500`. |
+| `CLOUDINARY_URL` | Yes | `cloudinary://<api_key>:<api_secret>@<cloud_name>`. Used for product images. The key needs the **Master Admin** role (upload and delete). |
+| `DATABASE_URL` | No | Full database address, e.g. Aiven's `mysql://user:pass@host:port/db?ssl-mode=REQUIRED`. If set, it wins over the `DB_*` values. |
+| `DB_SSL_CA_PEM` / `DB_SSL_CA` | No | The database CA certificate (its text, or a file path) so the server certificate is verified. Without it, a `ssl-mode=REQUIRED` connection is encrypted but not verified. |
+| `DB_USER`, `DB_PASSWORD`, `DB_HOST`, `DB_NAME` | Yes* | Local MySQL settings |
+| `DB_PORT` | No | Defaults to `3306` |
+| `DB_SSL` | No | `true` to force an encrypted connection when using the `DB_*` values |
 
-**`app/config/.env`**
+\* Only required when `DATABASE_URL` is not set.
 
-| Variable | Required | Description |
-|---|---|---|
-| `DATABASE_URL` | No | A full database address. If set, it wins over the `DB_*` values below (this is what Render provides). |
-| `DB_USER` | Yes* | MySQL user |
-| `DB_PASSWORD` | Yes | MySQL password |
-| `DB_HOST` | Yes | MySQL host, for example `localhost` |
-| `DB_PORT` | Yes | MySQL port, usually `3306` |
-| `DB_NAME` | Yes* | Database name |
-
-\* Only required when `DATABASE_URL` is not set. `DB_PORT` defaults to `3306`.
-
-Example:
+Example `.env` for local development:
 
 ```env
-# .env
 SECRET_KEY=replace-with-a-long-random-string
-CORS_ORIGINS=http://localhost:5173
-```
-
-```env
-# app/config/.env
+CORS_ORIGINS=http://localhost:5500
+CLOUDINARY_URL=cloudinary://<api_key>:<api_secret>@<cloud_name>
 DB_USER=shop_user
 DB_PASSWORD=change-me
 DB_HOST=localhost
@@ -206,6 +196,7 @@ Promote body: `{ "email": "ada@example.com" }`
 |---|---|---|---|
 | GET | `/inventory/get_all_products` | Logged in | List all products |
 | GET | `/inventory/get_product?id=<uuid>` | Logged in | One product |
+| POST | `/inventory/upload-image` | Storekeeper | Upload a product photo (JPG, PNG or WebP, max 5 MB, multipart field `file`). Returns `image_url` and `public_id` |
 | POST | `/inventory/create_product` | Storekeeper | Add a product |
 | POST | `/inventory/update_product` | Storekeeper | Restock and edit a product |
 | DELETE | `/inventory/delete_product?id=<uuid>` | Storekeeper | Remove a product |
@@ -246,14 +237,14 @@ Update body: `{ "id": "<uuid>", "name": "Mug", "description": "A ceramic mug", "
 
 ## Running the tests
 
-The tests use an in-memory SQLite database, so they don't need MySQL. They do need `pytest` and `httpx`:
+The tests use an in-memory SQLite database, so they don't need MySQL. They need the dev dependencies (`pytest`, `httpx`):
 
 ```bash
-pip install pytest httpx        # or: uv add --dev pytest httpx
-python -m pytest
+uv sync                         # installs dev dependencies too
+uv run python -m pytest
 ```
 
-Run this from the project root. You also need `SECRET_KEY` and the `DB_*` variables set (the `.env` files are enough).
+Run this from the project root. You also need `SECRET_KEY` and either `DATABASE_URL` or the `DB_*` variables set (your `.env` is enough; the values are never used to connect).
 
 The tests cover the repositories, services, token handling, CORS settings and the role rules on every route.
 
@@ -262,11 +253,14 @@ The tests cover the repositories, services, token handling, CORS settings and th
 ```
 .
 ├── main.py                       # App setup, CORS, router registration
-├── pyproject.toml
-├── .env                          # SECRET_KEY, CORS_ORIGINS (not committed)
+├── pyproject.toml / uv.lock
+├── requirements.txt              # used by Render (generated from uv.lock)
+├── render.yaml                   # optional Render blueprint
+├── DEPLOY_RENDER.md              # Aiven + Render deployment guide
+├── .env.example
+├── .env                          # your settings (not committed)
 └── app/
     ├── config/
-    │   ├── .env                  # Database settings (not committed)
     │   ├── database.py           # Engine and table creation
     │   ├── dependencies.py       # Database session per request
     │   └── cors.py               # Allowed frontend origins
@@ -274,7 +268,7 @@ The tests cover the repositories, services, token handling, CORS settings and th
     ├── exception/                # Custom errors
     ├── models/                   # Database tables and request/response shapes
     ├── repositories/             # Database access
-    ├── services/                 # Business logic
+    ├── services/                 # Business logic (cloudinary_service.py handles images)
     ├── routers/                  # HTTP endpoints
     ├── security/
     │   ├── dependencies.py       # Current user and role checks
@@ -289,17 +283,23 @@ Each request flows through the same layers: **router** (HTTP and permissions) �
 
 ## Deploying
 
-A step-by-step guide for Render (no Docker needed) is in [DEPLOY_RENDER.md](DEPLOY_RENDER.md).
+The recommended setup is **MySQL on Aiven** (free plan) and the **API on Render**. The full step-by-step guide is in [DEPLOY_RENDER.md](DEPLOY_RENDER.md).
 
 In short, on any host:
 
-1. Set `SECRET_KEY` (new, long, random), `CORS_ORIGINS` (your frontend's `https://` address, no trailing slash), and either `DATABASE_URL` or the five `DB_*` values.
-2. Install with `pip install -r requirements.txt`.
+1. Set `SECRET_KEY` (new, long, random), `CORS_ORIGINS` (your frontend's `https://` address, no trailing slash), `CLOUDINARY_URL`, and `DATABASE_URL` (or the `DB_*` values).
+2. Install with `pip install -r requirements.txt` (Python 3.12).
 3. Start without `--reload`: `uvicorn main:app --host 0.0.0.0 --port $PORT`.
 4. Serve it over HTTPS.
-5. Create the first storekeeper with the script in [Creating your first storekeeper](#creating-your-first-storekeeper).
+5. Create the first storekeeper with the script in [Creating your first storekeeper](#creating-your-first-storekeeper). On hosts with no shell, run it from your own computer with `DATABASE_URL` pointing at the live database.
 
 `GET /health` returns `{"status": "ok"}` for uptime and health checks.
+
+When you change dependencies, regenerate the pinned file:
+
+```bash
+uv lock && uv export --no-dev --no-hashes --no-emit-project -o requirements.txt
+```
 
 ### Database changes
 

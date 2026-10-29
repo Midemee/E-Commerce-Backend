@@ -1,11 +1,14 @@
-.idea/
-app/config/.env/
-workspace.iml/
-git add .gitignore
-git commit --amend --no-edit
+# secrets
+.env
 app/config/.env
+
+# python
 __pycache__/
 *.pyc
+.venv/
+.pytest_cache/
+
+# local / IDE
 app.db
-.idea/workspace.xml
-.env
+.idea/
+workspace.iml
