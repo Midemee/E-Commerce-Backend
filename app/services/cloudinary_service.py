@@ -4,6 +4,9 @@ import cloudinary
 import cloudinary.uploader
 from fastapi import HTTPException, UploadFile
 from PIL import Image, UnidentifiedImageError
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class CloudinaryService:
@@ -59,6 +62,7 @@ class CloudinaryService:
             }
 
         except Exception:
+            logger.exception("Cloudinary product image upload failed")
             raise HTTPException(
                 status_code=502,
                 detail="Failed to upload the image. Please try again.",
